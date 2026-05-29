@@ -7,7 +7,7 @@ if (NOT PICO_PROGRAM_MAIN_ENTRY)
 	set(BOOT_WORKAROUND OFF)
 
 	# Default output data pin for the non-SPI LED strips (only for sk6812/ws2812b)
-	set(OUTPUT_DATA_PIN 2)
+	set(_PIN 2)
 
 	# Default output data/clocks pin for the SPI LED strips (only for apa102, not for sk6812/ws2812b)
 	# only certain pairs of pins are allowed for selected SPI interface (refer to "readme.md")
@@ -16,7 +16,7 @@ if (NOT PICO_PROGRAM_MAIN_ENTRY)
 	set(OUTPUT_SPI_INTERFACE spi0)
 
 	# Use multi-segment, starting index of second led strip or OFF to disable
-	set(SECOND_SEGMENT_INDEX OFF)
+	set(SECOND_SEGMENT_INDEX)
 
 	# If multi-segment is used and it's reversed, set this option to ON to enable reversing
 	set(SECOND_SEGMENT_REVERSED OFF)
@@ -148,10 +148,10 @@ ELSE()
         target_compile_definitions("${CMAKE_PROJECT_NAME}_ws2812_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGB -DDATA_PIN=${OUTPUT_DATA_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX})
     ELSE()
         HyperSerialPicoTarget("${CMAKE_PROJECT_NAME}_sk6812Cold_rev_multisegment_at_${SECOND_SEGMENT_INDEX}")
-        target_compile_definitions("${CMAKE_PROJECT_NAME}_sk6812Cold_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGBW -DCOLD_WHITE -DDATA_PIN=${OUTPUT_DATA_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}_sk6812Cold_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGBW -DCOLD_WHITE -DDATA_PIN=${_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
         HyperSerialPicoTarget("${CMAKE_PROJECT_NAME}_sk6812Neutral_rev_multisegment_at_${SECOND_SEGMENT_INDEX}")
-        target_compile_definitions("${CMAKE_PROJECT_NAME}_sk6812Neutral_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGBW -DDATA_PIN=${OUTPUT_DATA_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}_sk6812Neutral_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGBW -DDATA_PIN=${_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
         HyperSerialPicoTarget("${CMAKE_PROJECT_NAME}_ws2812_rev_multisegment_at_${SECOND_SEGMENT_INDEX}")
-        target_compile_definitions("${CMAKE_PROJECT_NAME}_ws2812_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGB -DDATA_PIN=${OUTPUT_DATA_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
+        target_compile_definitions("${CMAKE_PROJECT_NAME}_ws2812_rev_multisegment_at_${SECOND_SEGMENT_INDEX}" PRIVATE -DNEOPIXEL_RGB -DDATA_PIN=${_PIN} -DSECOND_SEGMENT_START_INDEX=${SECOND_SEGMENT_INDEX} -DSECOND_SEGMENT_REVERSED)
     ENDIF()
 ENDIF()
